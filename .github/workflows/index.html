@@ -1,0 +1,186 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Junaid - Personal Finance Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Notification Area -->
+    <div id="notification" class="notification" style="display: none;"></div>
+
+    <div class="container">
+        <main class="main-content">
+            <div class="header-controls">
+                <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Dark Mode">🌙</button>
+            </div>
+            <section id="dashboard" class="section">
+                <h2>Dashboard</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3>Total Income</h3>
+                        <p id="total-income">₹0.00</p>
+                    </div>
+                    <div class="card">
+                        <h3>Total Expenses</h3>
+                        <p id="total-expenses">₹0.00</p>
+                    </div>
+                    <div class="card">
+                        <h3>Savings</h3>
+                        <p id="savings">₹0.00</p>
+                    </div>
+                    <div class="card">
+                        <h3>Upcoming Payments</h3>
+                        <p id="upcoming-payments">0</p>
+                    </div>
+                </div>
+            </section>
+            <section id="transactions" class="section">
+                <h2>Transactions</h2>
+
+                <!-- Search and Filter Controls -->
+                <div class="search-filter-container">
+                    <div class="search-bar">
+                        <input type="text" id="transaction-search" placeholder="Search transactions...">
+                        <button id="clear-search">Clear</button>
+                    </div>
+                    <div class="filters">
+                        <select id="filter-type">
+                            <option value="">All Types</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                        <select id="filter-category">
+                            <option value="">All Categories</option>
+                        </select>
+                        <select id="filter-month">
+                            <option value="">All Months</option>
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                </div>
+
+                <form id="transaction-form">
+                    <input type="text" id="transaction-description" placeholder="Description" required>
+                    <input type="number" id="transaction-amount" placeholder="Amount" step="0.01" required>
+                    <select id="transaction-type" required>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                    <select id="transaction-category">
+                        <option value="">Select Category</option>
+                    </select>
+                    <input type="date" id="transaction-date" required>
+                    <button type="submit">Add Transaction</button>
+                </form>
+                <ul id="transaction-list"></ul>
+            </section>
+            <section id="categories" class="section">
+                <h2>Categories</h2>
+                <form id="category-form">
+                    <input type="text" id="category-name" placeholder="Category Name" required>
+                    <button type="submit">Add Category</button>
+                </form>
+                <ul id="category-list"></ul>
+            </section>
+            <section id="budgets" class="section">
+                <h2>Budgets</h2>
+                <form id="budget-form">
+                    <select id="budget-category">
+                        <option value="">Select Category</option>
+                    </select>
+                    <input type="number" id="budget-amount" placeholder="Budget Amount" step="0.01" required>
+                    <select id="budget-period">
+                        <option value="monthly">Monthly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                    <button type="submit">Set Budget</button>
+                </form>
+                <ul id="budget-list"></ul>
+            </section>
+
+<section id="insights" class="section">
+                <h2>Financial Insights</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-bottom: 30px;">
+                    <div>
+                        <h3 style="color: #fff; margin-bottom: 15px; font-size: 1.2rem;">Spending by Category</h3>
+                        <canvas id="spending-chart"></canvas>
+                    </div>
+                    <div>
+                        <h3 style="color: #fff; margin-bottom: 15px; font-size: 1.2rem;">Income vs Expenses</h3>
+                        <canvas id="income-expense-chart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="color: #fff; margin-bottom: 15px; font-size: 1.2rem;">Monthly Trends</h3>
+                    <canvas id="trends-chart"></canvas>
+                </div>
+            </section>
+
+            <div class="action-buttons">
+                <button id="export-data">Export Data</button>
+                <button id="reset-data">Reset Data</button>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: rgba(30, 30, 30, 0.9); backdrop-filter: blur(20px); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 20px 0; margin-top: 40px;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 30px; text-align: center;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div style="flex: 1; min-width: 250px;">
+                    <h3 style="color: #fff; margin-bottom: 10px; font-size: 1.2rem;">Personal Finance Tracker</h3>
+                    <p style="color: #b3b3b3; font-size: 0.9rem; line-height: 1.5;">
+                        Take control of your finances with our privacy-first tracker.
+                        All data stays on your device - no cloud storage, no data collection.
+                    </p>
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <h4 style="color: #fff; margin-bottom: 10px; font-size: 1rem;">Features</h4>
+                    <ul style="list-style: none; padding: 0; color: #b3b3b3; font-size: 0.9rem; line-height: 1.8;">
+                        <li>📊 Interactive Charts</li>
+                        <li>💰 Budget Management</li>
+                        <li>🔍 Advanced Search</li>
+                        <li>📱 Responsive Design</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <h4 style="color: #fff; margin-bottom: 10px; font-size: 1rem;">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0; color: #b3b3b3; font-size: 0.9rem; line-height: 1.8;">
+                        <li><a href="#dashboard" style="color: #8b5cf6; text-decoration: none;">Dashboard</a></li>
+                        <li><a href="#transactions" style="color: #8b5cf6; text-decoration: none;">Transactions</a></li>
+                        <li><a href="#categories" style="color: #8b5cf6; text-decoration: none;">Categories</a></li>
+                        <li><a href="#budgets" style="color: #8b5cf6; text-decoration: none;">Budgets</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: 20px; padding-top: 20px;">
+                <p style="color: #888; font-size: 0.8rem; margin: 0;">
+                    © 2024 Personal Finance Tracker. Built with ❤️ using vanilla JavaScript.
+                    <span style="display: block; margin-top: 5px;">
+                        <a href="https://github.com/yourusername/personal-finance-tracker" style="color: #8b5cf6; text-decoration: none; margin-right: 15px;">GitHub</a>
+                        <a href="LICENSE" style="color: #8b5cf6; text-decoration: none; margin-right: 15px;">License</a>
+                        <a href="README.md" style="color: #8b5cf6; text-decoration: none;">Documentation</a>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
